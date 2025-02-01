@@ -22,6 +22,7 @@ const manifest: ManifestV3 = {
   ],
   action: {
     default_popup: "pages/popup.html",
+    128: "icon.png"
   }
 }
 
