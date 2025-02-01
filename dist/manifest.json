@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "chegg-dl",
+  "version": "1.0",
+  "description": "download chegg textbook solutions as a pdf",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://quizlet.com/explanations/textbook-solutions/*"
+  ],
+  "background": {
+    "service_worker": "scripts/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/import-answerScraper.js",
+        "scripts/import-nextPage.js"
+      ],
+      "matches": [
+        "https://quizlet.com/explanations/textbook-solutions/*"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "chunks/*-*.js",
+        "scripts/answerScraper.js",
+        "scripts/nextPage.js"
+      ],
+      "matches": [
+        "https://quizlet.com/*"
+      ]
+    }
+  ]
+}
