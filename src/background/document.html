@@ -9,26 +9,40 @@
     <style>
         body {
             max-width: 21cm;
+            width: 21cm;
         }
         .ExplanationsSolutionCard.c5ngj6s {
-            background-color: #f2f2f2;
+            background-color: white;
+            width: 21cm;
         }
         .h1ejaztj {
             display: flex;
             justify-content: space-between;
             font-weight: 600;
         }
-        #answers {
-            display: flex;
-            flex-direction: column;
+        .s1i7awl8 {
+            height: max-content !important;
+        }
+        img {
+            max-width: 18cm !important;
+        }
+        @media print {
+            .pagebreak {
+                clear: both;
+                page-break-after: always;
+            }
         }
     </style>
     <script src="background.js"></script>
 </head>
 <body>
 
+    <div id="instructions">
+        <h2>QUIZLET-DL</h2>
+    </div>
+
     <div id="answers">
-        
+
     </div>
     
 </body>
