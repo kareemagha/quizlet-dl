@@ -16,6 +16,9 @@ const manifest: ManifestV3 = {
       matches: ['https://quizlet.com/explanations/textbook-solutions/*'],
     },
   ],
+  action: {
+    default_popup: "pages/popup.html",
+  }
 }
 
 export default manifest

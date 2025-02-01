@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "chegg-dl",
+  "name": "quizlet-dl",
   "version": "1.0",
-  "description": "download chegg textbook solutions as a pdf",
+  "description": "download quizlet textbook solutions as a pdf",
   "permissions": [
     "activeTab",
     "tabs",
@@ -25,6 +25,9 @@
       ]
     }
   ],
+  "action": {
+    "default_popup": "pages/popup.html"
+  },
   "web_accessible_resources": [
     {
       "resources": [

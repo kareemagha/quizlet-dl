@@ -1,13 +1,13 @@
 function getAnswer() {
-    const element = document.getElementsByClassName("s1i7awl8")
+    const element = document.querySelectorAll(".s1i7awl8")
     console.log(element.length)
     if (element) {
         for (let i = 0; i < element.length; i++) {
             const currentElement = element[i];
             const styles = window.getComputedStyle(currentElement);
             let styleString = '';
-            for (let i = 0; i < styles.length; i++) {
-                const property = styles[i];
+            for (let j = 0; j < styles.length; j++) {
+                const property = styles[j];
                 styleString += `${property}: ${styles.getPropertyValue(property)}; `;
             }
             currentElement.setAttribute('style', styleString);
@@ -35,7 +35,20 @@ function getAnswer() {
             var port = chrome.runtime.connect({name: "answers"});
             port.postMessage({
                 html: HTMLAnswer,
-                name: pageTitle});
+                name: pageTitle,
+                answer: i,
+                answers: element.length});
+                port.onMessage.addListener(function(msg) {
+                    const button1 = document.querySelector('#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(3) > div > div.b1opuclq > div > div.n5cc71p > div > a') as HTMLElement | null;
+                    const button2 = document.querySelector('#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(2) > div > div.b1opuclq > div > div.n5cc71p > div > a') as HTMLElement | null;
+                    if (msg.instruction === true) {
+                        if (element.length > 1 && button1) {
+                            button1.click();
+                        } else if (button2) {
+                            button2.click();
+                        }
+                    }
+                });
         }    
     } else {
         console.warn("Answer element not found")
