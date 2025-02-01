@@ -17,24 +17,13 @@ function getAnswer() {
             const pageURL = window.location.toString();
             const pageTitle = formatSolutionName(pageURL, elementLength, i)
 
- 
             var port = chrome.runtime.connect({name: "answers"});
             port.postMessage({
                 html: HTMLAnswer,
                 name: pageTitle,
                 answer: i,
-                answers: elementLength});
-                port.onMessage.addListener(function(msg) {
-                    const button1 = document.querySelector('#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(3) > div > div.b1opuclq > div > div.n5cc71p > div > a') as HTMLElement | null;
-                    const button2 = document.querySelector('#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(2) > div > div.b1opuclq > div > div.n5cc71p > div > a') as HTMLElement | null;
-                    if (msg.instruction === true) {
-                        if (elementLength > 1 && button1) {
-                            button1.click();
-                        } else if (button2) {
-                            button2.click();
-                        }
-                    }
-                });
+                answers: elementLength
+            });
         }    
     } else {
         console.log("%cAnswer element not found", "color: red;");
