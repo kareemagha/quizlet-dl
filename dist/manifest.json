@@ -12,14 +12,13 @@
     "https://quizlet.com/explanations/textbook-solutions/*"
   ],
   "background": {
-    "service_worker": "scripts/background.js",
+    "service_worker": "background/background.js",
     "type": "module"
   },
   "content_scripts": [
     {
       "js": [
-        "scripts/import-answerScraper.js",
-        "scripts/import-nextPage.js"
+        "injected/import-answerScraper.js"
       ],
       "matches": [
         "https://quizlet.com/explanations/textbook-solutions/*"
@@ -30,8 +29,7 @@
     {
       "resources": [
         "chunks/*-*.js",
-        "scripts/answerScraper.js",
-        "scripts/nextPage.js"
+        "injected/answerScraper.js"
       ],
       "matches": [
         "https://quizlet.com/*"

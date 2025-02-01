@@ -2,7 +2,7 @@ function injectScript(tabId: number) {
     chrome.scripting.executeScript(
         {
             target: {tabId: tabId},
-            files: ['scripts/answerScraper.js'],
+            files: ['injected/answerScraper.js'],
         }
     );
 }

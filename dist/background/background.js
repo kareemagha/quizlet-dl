@@ -1,7 +1,7 @@
 function injectScript(tabId) {
     chrome.scripting.executeScript({
         target: { tabId: tabId },
-        files: ['scripts/answerScraper.js'],
+        files: ['injected/answerScraper.js'],
     });
 }
 // adds a listener to tab change

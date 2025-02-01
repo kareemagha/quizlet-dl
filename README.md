@@ -1,2 +1,2 @@
-# chegg-dl
-Download chegg textbook solutions
+# quizlet-dl
+Download quizlet textbook solutions
