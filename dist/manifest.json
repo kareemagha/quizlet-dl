@@ -23,6 +23,14 @@
       "matches": [
         "https://quizlet.com/explanations/textbook-solutions/*"
       ]
+    },
+    {
+      "js": [
+        "injected/import-nextPage.js"
+      ],
+      "matches": [
+        "https://example.com/*"
+      ]
     }
   ],
   "action": {
@@ -32,10 +40,12 @@
     {
       "resources": [
         "chunks/*-*.js",
-        "injected/answerScraper.js"
+        "injected/answerScraper.js",
+        "injected/nextPage.js"
       ],
       "matches": [
-        "https://quizlet.com/*"
+        "https://quizlet.com/*",
+        "https://example.com/*"
       ]
     }
   ]

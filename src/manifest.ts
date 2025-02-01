@@ -15,6 +15,10 @@ const manifest: ManifestV3 = {
       js: ['injected/answerScraper.ts'],
       matches: ['https://quizlet.com/explanations/textbook-solutions/*'],
     },
+    {
+      js: ['injected/nextPage.ts'],
+      matches: ['https://example.com/*'],
+    },
   ],
   action: {
     default_popup: "pages/popup.html",

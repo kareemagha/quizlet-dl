@@ -1,4 +1,5 @@
-import { button1Selector, button2Selector } from "../utils/constants";
+const button1Selector = '#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(3) > div > div.b1opuclq > div > div.n5cc71p > div > a';
+const button2Selector = '#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(2) > div > div.b1opuclq > div > div.n5cc71p > div > a';
 
 (function() {
 

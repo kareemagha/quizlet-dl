@@ -1,4 +1,5 @@
-import { textbookURLParts, questionNameLocation } from "../utils/constants";
+const questionNameLocation = -5;
+const textbookURLParts = 7;
 
 function getAnswer() {
     const element = document.querySelectorAll(".s1i7awl8")
