@@ -36,6 +36,9 @@
   "action": {
     "default_popup": "pages/popup.html"
   },
+  "icons": {
+    "128": "icon.png"
+  },
   "web_accessible_resources": [
     {
       "resources": [
