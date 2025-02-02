@@ -1,15 +1,15 @@
-<div style="text-align: center;">
-  <img src="docs/icon.png" alt="extension icon" style="width: 20%;">
-</div>
+<p align="center">
+  <img src="docs/icon.png" alt="extension icon" width="20%">
+</p>
 
 
 # QUIZLET-DL
 Download Quizlet textbook solutions as a PDF.
 
 ## Extension Workflow
-<div style="text-align: center;">
-  <img src="docs/extension-workflow.drawio.png" alt="extension icon" style="width: 80%;">
-</div>
+<p align="center">
+  <img src="docs/extension-workflow.drawio.png" alt="extension workflow" width="80%">
+</p>
 
 n.b. this extension requires you to actively have Quizlet open in a browser window, as it directly manipulates the DOM.
 
