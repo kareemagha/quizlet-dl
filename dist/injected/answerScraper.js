@@ -1,5 +1,3 @@
-const questionNameLocation = -5;
-const textbookURLParts = 7;
 function getAnswer() {
     const element = document.querySelectorAll(".s1i7awl8");
     const elementLength = element.length;
@@ -30,6 +28,8 @@ function getAnswer() {
     }
 }
 function formatSolutionName(pageURL, elementLength, solutionNumber) {
+    const questionNameLocation = -5;
+    const textbookURLParts = 7;
     let pageTitle;
     const URLparts = pageURL.split('/');
     if (URLparts.length >= textbookURLParts) {
