@@ -1,30 +1,39 @@
 function getAnswer() {
-    const element = document.querySelectorAll(".s1i7awl8");
-    const elementLength = element.length;
-    if (element) {
-        for (let i = 0; i < elementLength; i++) {
-            const currentElement = element[i];
-            const styles = window.getComputedStyle(currentElement);
-            let styleString = '';
-            for (let j = 0; j < styles.length; j++) {
-                const property = styles[j];
-                styleString += `${property}: ${styles.getPropertyValue(property)}; `;
+    const elements = document.querySelectorAll(".s1i7awl8");
+    const elementCount = elements.length;
+    if (elementCount > 0) {
+        for (let i = 0; i < elementCount; i++) {
+            const currentElement = elements[i];
+            const computedStyles = window.getComputedStyle(currentElement);
+            const styleObject = {};
+            for (let j = 0; j < computedStyles.length; j++) {
+                const property = computedStyles[j];
+                styleObject[property] = computedStyles.getPropertyValue(property);
             }
-            currentElement.setAttribute('style', styleString);
-            const HTMLAnswer = currentElement.outerHTML;
+            const htmlAnswer = currentElement.outerHTML;
             const pageURL = window.location.toString();
-            const pageTitle = formatSolutionName(pageURL, elementLength, i);
-            var port = chrome.runtime.connect({ name: "answers" });
+            const pageTitle = formatSolutionName(pageURL, elementCount, i);
+            const bookNameElement = document.querySelector('.tgk5emi');
+            let bookName;
+            if (bookNameElement) {
+                const spanElement = bookNameElement.querySelector('span');
+                if (spanElement) {
+                    bookName = spanElement.textContent || '';
+                }
+            }
+            const port = chrome.runtime.connect({ name: "answers" });
             port.postMessage({
-                html: HTMLAnswer,
+                html: htmlAnswer,
                 name: pageTitle,
                 answer: i,
-                answers: elementLength
+                answers: elementCount,
+                styles: styleObject,
+                book: bookName
             });
         }
     }
     else {
-        console.log("%cAnswer element not found", "color: red;");
+        console.log("%cAnswer element not found.", "color: red;");
     }
 }
 function formatSolutionName(pageURL, elementLength, solutionNumber) {
@@ -39,7 +48,7 @@ function formatSolutionName(pageURL, elementLength, solutionNumber) {
         });
         pageTitle = pageName.join(' ');
         if (elementLength > 1) {
-            pageTitle = pageTitle + `(${solutionNumber + 1})`;
+            pageTitle = pageTitle + " " + `(${solutionNumber + 1})`;
         }
     }
     return pageTitle;

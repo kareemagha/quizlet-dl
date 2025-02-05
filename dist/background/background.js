@@ -11,9 +11,10 @@ function injectFlipper(tabId) {
     });
 }
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    console.log(changeInfo.url);
     if (changeInfo.url && changeInfo.url.startsWith("https://quizlet.com/explanations/textbook-solutions/")) {
         setTimeout(() => {
+            // empty saved answers array for new page
+            savedAnswer.length === 0;
             injectScraper(tabId);
         }, 100);
     }
@@ -26,19 +27,38 @@ chrome.runtime.onConnect.addListener(function (port) {
         tabID = port.sender.tab.id;
     }
     port.onMessage.addListener(function (msg) {
-        addAnswer(msg.html, msg.name);
-        console.log(msg.answer);
-        console.log(msg.answers);
-        if (msg.answer === msg.answers - 1 && typeof tabID === "number") {
-            injectFlipper(tabID);
-        }
+        addAnswer(msg.html, msg.styles, msg.name, msg.book);
+        checkBackgroundPageOpen().then((isBackgroundPageOpen) => {
+            if (msg.answer === msg.answers - 1 && typeof tabID === "number" && isBackgroundPageOpen) {
+                injectFlipper(tabID);
+            }
+        }).catch((error) => {
+            console.error('Error checking background page status:', error);
+        });
     });
 });
+async function checkBackgroundPageOpen() {
+    const tabs = await chrome.tabs.query({});
+    const backgroundPageUrl = chrome.runtime.getURL('background/document.html');
+    return tabs.some(tab => tab.url === backgroundPageUrl);
+}
 const savedAnswer = [];
-function addAnswer(html, name) {
-    const answers = document.getElementById("answers");
-    if (!savedAnswer.includes(name) && answers) {
-        answers.innerHTML += `<h2>${name}</h2><br /><div class="answer">${html}</div><div class="pagebreak"> </div>`;
+function addAnswer(html, styles, name, book) {
+    if (typeof document !== "undefined") {
+        const answers = document.getElementById("answers");
+        if (answers && !savedAnswer.includes(name)) {
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = html;
+            const element = tempContainer.firstElementChild;
+            if (element) {
+                for (const [property, value] of Object.entries(styles)) {
+                    element.style.setProperty(property, value);
+                }
+            }
+            answers.innerHTML += `<h2>${name}</h2><br /><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
+            console.log(document.title);
+            document.title = book;
+            savedAnswer.push(name);
+        }
     }
-    savedAnswer.push(name);
 }

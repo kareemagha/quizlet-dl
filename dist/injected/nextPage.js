@@ -1,6 +1,7 @@
 (function () {
     const button1Selector = '#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(3) > div > div.b1opuclq > div > div.n5cc71p > div > a';
     const button2Selector = '#mainContainer > main > div > div > div > div > main > div > div > div > div:nth-child(2) > div > div.b1opuclq > div > div.n5cc71p > div > a';
+    console.log("flipper injected");
     const element = document.querySelectorAll(".s1i7awl8");
     const elementLength = element.length;
     const button1 = document.querySelector(button1Selector);

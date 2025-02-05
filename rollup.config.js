@@ -24,9 +24,7 @@ export default {
     commonjs(),
     copy({
       targets: [
-        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js'], dest: 'dist/background' },
-        { src: ['assets/fonts/arial.woff', 'assets/fonts/arial.woff2'], dest: 'dist/public/fonts' },
-        { src: 'assets/images/**/*', dest: 'dist/public/images' }
+        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js'], dest: 'dist/background' }
       ]
     })
   ],
