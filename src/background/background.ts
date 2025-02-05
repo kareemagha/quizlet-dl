@@ -59,19 +59,16 @@ function addAnswer(html: string, styles: { [key: string]: string }, name: string
     if (typeof document !== "undefined") {
         const answers = document.getElementById("answers");
         if (answers && !savedAnswer.includes(name)) {
-            // Create a temporary container to parse the HTML string
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = html;
             const element = tempContainer.firstElementChild as HTMLElement | null;
 
-            // Apply the computed styles as inline styles
             if (element) {
                 for (const [property, value] of Object.entries(styles)) {
                     element.style.setProperty(property, value);
                 }
             }
 
-            // Append the styled HTML to the answers container
             answers.innerHTML += `<h2>${name}</h2><br /><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
             console.log(document.title)
             document.title = book;

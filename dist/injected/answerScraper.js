@@ -1,31 +1,3 @@
-// function getAnswer() {
-//     const element = document.querySelectorAll(".s1i7awl8")
-//     const elementLength = element.length;
-//     if (elementLength > 0) {
-//         for (let i = 0; i < elementLength; i++) {
-//             const currentElement = element[i];
-//             const styles = window.getComputedStyle(currentElement);
-//             let styleString = '';
-//             for (let j = 0; j < styles.length; j++) {
-//                 const property = styles[j];
-//                 styleString += `${property}: ${styles.getPropertyValue(property)}; `;
-//             }
-//             currentElement.setAttribute('style', styleString);
-//             const HTMLAnswer = currentElement.outerHTML;
-//             const pageURL = window.location.toString();
-//             const pageTitle = formatSolutionName(pageURL, elementLength, i)
-//             var port = chrome.runtime.connect({name: "answers"});
-//             port.postMessage({
-//                 html: HTMLAnswer,
-//                 name: pageTitle,
-//                 answer: i,
-//                 answers: elementLength
-//             });
-//         }    
-//     } else {
-//         console.log("%cAnswer element not found.", "color: red;");
-//     }
-// }
 function getAnswer() {
     const elements = document.querySelectorAll(".s1i7awl8");
     const elementCount = elements.length;
