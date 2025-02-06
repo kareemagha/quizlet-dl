@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "quizlet-dl",
-  "version": "0.2.2",
+  "version": "1.0",
   "description": "download quizlet textbook solutions as a pdf",
   "permissions": [
     "activeTab",
