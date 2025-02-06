@@ -24,7 +24,7 @@ export default {
     commonjs(),
     copy({
       targets: [
-        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js'], dest: 'dist/background' }
+        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js', 'src/background/fonts/'], dest: 'dist/background' }
       ]
     })
   ],
