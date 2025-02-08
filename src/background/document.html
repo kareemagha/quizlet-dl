@@ -6,10 +6,14 @@
     <title>Document</title>
     <link rel="stylesheet" href="katex.css">
     <script src="katex.js"></script>
+    <link rel="stylesheet" href="github-markdown.min.css">
+    <script src="auto-render.js"></script>
     <style>
         body {
             max-width: 21cm;
             width: 21cm;
+            font-size: 100%;
+            
         }
         .ExplanationsSolutionCard.c5ngj6s {
             background-color: white;
@@ -33,20 +37,57 @@
             }
             .noprint {
                 display:none;
-        }            
-}
+            }            
+        }
+    .stepHeader {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 400 !important;
+            font-size: 0.6em;
+        }
+
+    .steContent {
+        font-weight: 400;
+        font-size: 1rem;
+        font-family: sans-serif;
+    }
+
+    img[src="undefined"] {
+        display: none;
+    }
     </style>
-    <script src="background.js"></script>
 </head>
 <body>
 
     <div id="instructions" class="noprint">
         <h2>QUIZLET-DL</h2>
+        <div>
+            <h3>Options:</h3>
+            <div class="options-indent">
+                Next solution delay (in milliseconds): <input type="number" />
+                 <div id="control">
+                    Extension state: 
+                    <label class="radio">
+                        <input type="radio" name="answer" id="on">
+                        On
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer" id="off">
+                        Off
+                    </label>
+                </div>
+            </div>
+            <br>
+            <button id="save">Save Options</button>
+            <div id="status"></div>
+        </div>
     </div>
 
     <div id="answers">
 
     </div>
-    
+    <script src="autoRender.js"></script>
+    <script src="background.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 function injectScraper(tabId: number) {
     chrome.scripting.executeScript(
-        {
-            target: {tabId: tabId},
-            files: ['injected/answerScraper.js'],
-        }
+      {
+          target: {tabId: tabId},
+          files: ['injected/answerScraper.js'],
+      }
     );
 }
 
@@ -34,7 +34,8 @@ chrome.runtime.onConnect.addListener(function (port) {
     tabID = port.sender.tab.id;
   }
   port.onMessage.addListener(function (msg) {
-    addAnswer(msg.html, msg.styles, msg.name, msg.book);
+    addAnswer(msg.html, msg.name, msg.book);
+    console.log(msg.html)
     checkBackgroundPageOpen().then((isBackgroundPageOpen) => {
       if (msg.answer === msg.answers - 1 && typeof tabID === "number" && isBackgroundPageOpen) {
         injectFlipper(tabID);
@@ -55,21 +56,14 @@ async function checkBackgroundPageOpen() {
 const savedAnswer: string[] = [];
 
 
-function addAnswer(html: string, styles: { [key: string]: string }, name: string, book: string) {
+function addAnswer(html: string, name: string, book: string) {
     if (typeof document !== "undefined") {
         const answers = document.getElementById("answers");
         if (answers && !savedAnswer.includes(name)) {
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = html;
             const element = tempContainer.firstElementChild as HTMLElement | null;
-
-            if (element) {
-                for (const [property, value] of Object.entries(styles)) {
-                    element.style.setProperty(property, value);
-                }
-            }
-
-            answers.innerHTML += `<h2>${name}</h2><br /><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
+            answers.innerHTML += `<h2>${name}</h2><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
             console.log(document.title)
             document.title = book;
             savedAnswer.push(name);

@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "quizlet-dl",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "scripts": {
     "lint": "eslint src",
     "build": "rollup -c",
@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/katex": "^0.16.7",
+    "@types/marked": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
     "eslint": "^9.19.0",
@@ -27,6 +29,12 @@
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "^12.1.2",
-    "@types/chrome": "^0.0.300"
+    "@types/chrome": "^0.0.300",
+    "@types/markdown-it": "^14.1.2",
+    "@vscode/markdown-it-katex": "^1.1.1",
+    "katex": "^0.16.21",
+    "markdown-it": "^14.1.0",
+    "marked": "^15.0.6",
+    "showdown": "^2.1.0"
   }
 }

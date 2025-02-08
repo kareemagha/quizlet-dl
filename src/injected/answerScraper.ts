@@ -1,42 +1,60 @@
+import MarkdownIt from 'markdown-it';
+import mk from '@vscode/markdown-it-katex';
+import 'katex/contrib/mhchem'
+
+const md = new MarkdownIt();
+
+md.use(mk);
+
+
 function getAnswer() {
-    const elements = document.querySelectorAll(".s1i7awl8");
-    const elementCount = elements.length;
+    const scriptElement = document.getElementById('__NEXT_DATA__');
+    const jsonData = scriptElement?.textContent ? JSON.parse(scriptElement.textContent) : null;
 
-    if (elementCount > 0) {
+    if (jsonData) {
+        // itterates over number of solutions
+        const elementCount = jsonData.props?.pageProps?.exercise?.solutions?.length
+        const bookName = jsonData.props?.pageProps?.textbook?.title;
+        const bookEdition = jsonData.props?.pageProps?.textbook?.edition;
+        const pageURL = window.location.toString();
         for (let i = 0; i < elementCount; i++) {
-            const currentElement = elements[i];
-            const computedStyles = window.getComputedStyle(currentElement);
-            const styleObject: { [key: string]: string } = {};
-
-            for (let j = 0; j < computedStyles.length; j++) {
-                const property = computedStyles[j];
-                styleObject[property] = computedStyles.getPropertyValue(property);
-            }
-
-            const htmlAnswer = currentElement.outerHTML;
-            const pageURL = window.location.toString();
             const pageTitle = formatSolutionName(pageURL, elementCount, i);
-            const bookNameElement = document.querySelector('.tgk5emi');
-            let bookName;
-            if (bookNameElement) {
-                const spanElement = bookNameElement.querySelector('span');
-                if (spanElement) {
-                    bookName = spanElement.textContent || '';
-                }
+            let htmlAnswer: string = "";
+            const step = jsonData.props?.pageProps?.exercise?.solutions?.[i]?.steps;
+            // itterates through number of steps
+            for (let j = 0; j < step?.length; j++) {
+                let stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
+                const image = step?.[j]?.columns?.[0]?.images?.additional?.regular;
+                const imageSrc = image?.srcUrl == undefined ? "" : image?.srcUrl;
+                const formattedHTML = md.render(step?.[j]?.columns?.[0]?.text)
+                htmlAnswer += `
+                    <div class="answerContainer">
+                        <div class="stepHeader">
+                            <h2 class="stepName">${stepName}</h2>
+                            <h3 class="stepCounter">${j + 1} of ${step?.length}</h3>
+                        </div>
+                        <div class="stepContent">
+                            <div class="answerElement">
+                                ${formattedHTML}
+                            </div>
+                            <img src="${imageSrc}" width=${image?.width}>
+                        </div>
+                    </div>
+                    <br />
+                `
             }
-
+            console.log(htmlAnswer)
             const port = chrome.runtime.connect({ name: "answers" });
             port.postMessage({
                 html: htmlAnswer,
                 name: pageTitle,
                 answer: i,
                 answers: elementCount,
-                styles: styleObject,
-                book: bookName
+                book: `${bookName} (${bookEdition})` 
             });
         }
     } else {
-        console.log("%cAnswer element not found.", "color: red;");
+        console.log("no answers")
     }
 }
 
@@ -60,5 +78,9 @@ function formatSolutionName(pageURL: string, elementLength: number, solutionNumb
 }
 
 // runs on full page load (document idle)
-console.log("Script injected successfully.")
-getAnswer()
+chrome.storage.sync.get('extensionState', (items) => {
+    if (items.extensionState === 'on') {
+        console.log("Script injected successfully.")
+        getAnswer()
+    }
+})
