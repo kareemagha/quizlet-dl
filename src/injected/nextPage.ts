@@ -7,7 +7,7 @@
         const nextPage = jsonData.props.pageProps.exercise.nextExercises[0]._webUrl;
         setTimeout(() => {
             window.location.href = nextPage;
-        }, 200)
+        }, 1000)
     }
 
 })()

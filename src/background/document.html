@@ -37,8 +37,8 @@
             }
             .noprint {
                 display:none;
-        }            
-    }
+            }            
+        }
     .stepHeader {
             display: flex;
             justify-content: space-between;
@@ -56,19 +56,38 @@
         display: none;
     }
     </style>
-    <script src="background.js"></script>
-
 </head>
 <body>
 
     <div id="instructions" class="noprint">
         <h2>QUIZLET-DL</h2>
+        <div>
+            <h3>Options:</h3>
+            <div class="options-indent">
+                Next solution delay (in milliseconds): <input type="number" />
+                 <div id="control">
+                    Extension state: 
+                    <label class="radio">
+                        <input type="radio" name="answer" id="on">
+                        On
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer" id="off">
+                        Off
+                    </label>
+                </div>
+            </div>
+            <br>
+            <button id="save">Save Options</button>
+            <div id="status"></div>
+        </div>
     </div>
 
     <div id="answers">
 
     </div>
     <script src="autoRender.js"></script>
-    
+    <script src="background.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>

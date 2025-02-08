@@ -1,9 +1,9 @@
 function injectScraper(tabId: number) {
     chrome.scripting.executeScript(
-        {
-            target: {tabId: tabId},
-            files: ['injected/answerScraper.js'],
-        }
+      {
+          target: {tabId: tabId},
+          files: ['injected/answerScraper.js'],
+      }
     );
 }
 
@@ -35,6 +35,7 @@ chrome.runtime.onConnect.addListener(function (port) {
   }
   port.onMessage.addListener(function (msg) {
     addAnswer(msg.html, msg.name, msg.book);
+    console.log(msg.html)
     checkBackgroundPageOpen().then((isBackgroundPageOpen) => {
       if (msg.answer === msg.answers - 1 && typeof tabID === "number" && isBackgroundPageOpen) {
         injectFlipper(tabID);

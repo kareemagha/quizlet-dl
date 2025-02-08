@@ -24,7 +24,7 @@ export default {
     commonjs(),
     copy({
       targets: [
-        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js', 'src/background/fonts/', 'src/background/autoRender.js', 'src/background/auto-render.js', 'src/background/github-markdown.min.css'], dest: 'dist/background' }
+        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js', 'src/background/fonts/', 'src/background/autoRender.js', 'src/background/auto-render.js', 'src/background/github-markdown.min.css', 'src/background/settings.js'], dest: 'dist/background' }
       ]
     })
   ],

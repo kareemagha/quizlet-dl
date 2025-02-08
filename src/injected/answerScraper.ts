@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import mk from '@vscode/markdown-it-katex';
+import 'katex/contrib/mhchem'
 
 const md = new MarkdownIt();
 
@@ -25,14 +26,7 @@ function getAnswer() {
                 let stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
                 const image = step?.[j]?.columns?.[0]?.images?.additional?.regular;
                 const imageSrc = image?.srcUrl == undefined ? "" : image?.srcUrl;
-
-
-
                 const formattedHTML = md.render(step?.[j]?.columns?.[0]?.text)
-
-
-
-                // const formattedHTML = formatText(step?.[j]?.columns?.[0]?.text)
                 htmlAnswer += `
                     <div class="answerContainer">
                         <div class="stepHeader">
@@ -84,5 +78,9 @@ function formatSolutionName(pageURL: string, elementLength: number, solutionNumb
 }
 
 // runs on full page load (document idle)
-console.log("Script injected successfully.")
-getAnswer()
+chrome.storage.sync.get('extensionState', (items) => {
+    if (items.extensionState === 'on') {
+        console.log("Script injected successfully.")
+        getAnswer()
+    }
+})
