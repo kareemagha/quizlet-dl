@@ -5,7 +5,9 @@
 
     if (jsonData) {
         const nextPage = jsonData.props.pageProps.exercise.nextExercises[0]._webUrl;
-        window.location.href = nextPage;
+        setTimeout(() => {
+            window.location.href = nextPage;
+        }, 200)
     }
 
 })()

@@ -1,3 +1,11 @@
+import MarkdownIt from 'markdown-it';
+import mk from '@vscode/markdown-it-katex';
+
+const md = new MarkdownIt();
+
+md.use(mk);
+
+
 function getAnswer() {
     const scriptElement = document.getElementById('__NEXT_DATA__');
     const jsonData = scriptElement?.textContent ? JSON.parse(scriptElement.textContent) : null;
@@ -17,6 +25,14 @@ function getAnswer() {
                 let stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
                 const image = step?.[j]?.columns?.[0]?.images?.additional?.regular;
                 const imageSrc = image?.srcUrl == undefined ? "" : image?.srcUrl;
+
+
+
+                const formattedHTML = md.render(step?.[j]?.columns?.[0]?.text)
+
+
+
+                // const formattedHTML = formatText(step?.[j]?.columns?.[0]?.text)
                 htmlAnswer += `
                     <div class="answerContainer">
                         <div class="stepHeader">
@@ -24,7 +40,9 @@ function getAnswer() {
                             <h3 class="stepCounter">${j + 1} of ${step?.length}</h3>
                         </div>
                         <div class="stepContent">
-                            ${step?.[j]?.columns?.[0]?.text}
+                            <div class="answerElement">
+                                ${formattedHTML}
+                            </div>
                             <img src="${imageSrc}" width=${image?.width}>
                         </div>
                     </div>

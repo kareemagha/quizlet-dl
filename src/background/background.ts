@@ -62,7 +62,7 @@ function addAnswer(html: string, name: string, book: string) {
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = html;
             const element = tempContainer.firstElementChild as HTMLElement | null;
-            answers.innerHTML += `<h2>${name}</h2><br /><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
+            answers.innerHTML += `<h2>${name}</h2><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
             console.log(document.title)
             document.title = book;
             savedAnswer.push(name);
