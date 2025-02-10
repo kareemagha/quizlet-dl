@@ -3,7 +3,7 @@ import { ManifestV3 } from 'rollup-plugin-chrome-extension';
 const manifest: ManifestV3 = {
   name: 'quizlet-dl',
   description: 'download quizlet textbook solutions as a pdf',
-  version: '2.0.0a',
+  version: '2.1.0',
   manifest_version: 3,
   permissions: ['activeTab', 'tabs', 'scripting', 'storage'],
   host_permissions: ['https://quizlet.com/explanations/textbook-solutions/*'],
