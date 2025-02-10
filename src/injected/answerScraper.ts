@@ -41,11 +41,11 @@ function getAnswer() {
         const pageURL = window.location.toString();
         for (let i = 0; i < elementCount; i++) {
             const pageTitle = formatSolutionName(pageURL, elementCount, i);
-            let htmlAnswer: string = "";
+            let htmlAnswer = "";
             const step = jsonData.props?.pageProps?.exercise?.solutions?.[i]?.steps;
             // itterates through number of steps
             for (let j = 0; j < step?.length; j++) {
-                let stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
+                const stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
                     htmlAnswer += `
                         <div class="answerContainer">
                             <div class="stepHeader">

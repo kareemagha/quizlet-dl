@@ -16,11 +16,11 @@ function injectFlipper(tabId: number) {
     );
 }
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
     if (changeInfo.url && changeInfo.url.startsWith("https://quizlet.com/explanations/textbook-solutions/")) {
         setTimeout(() => {
             // empty saved answers array for new page
-            savedAnswer.length === 0;
+            savedAnswer.length = 0;
             injectScraper(tabId);
         }, 100)
     }
@@ -62,7 +62,6 @@ function addAnswer(html: string, name: string, book: string) {
         if (answers && !savedAnswer.includes(name)) {
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = html;
-            const element = tempContainer.firstElementChild as HTMLElement | null;
             answers.innerHTML += `<h2>${name}</h2><div class="answer">${tempContainer.innerHTML}</div><div class="pagebreak"> </div>`;
             console.log(document.title)
             document.title = book;
