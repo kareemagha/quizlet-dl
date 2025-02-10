@@ -10,6 +10,7 @@ const manifest: ManifestV3 = {
   background: {
     service_worker: 'background/background.ts',
   },
+  incognito: "split",
   content_scripts: [
     {
       js: ['injected/answerScraper.ts'],
