@@ -6,6 +6,17 @@
 # QUIZLET-DL
 Download Quizlet textbook solutions as a PDF.
 
+## Features
+* Ability to download solutions without restrictions.
+* $\LaTeX$ rendering when possible using $\KaTeX$.
+* Markdown rendering using [markdown-it](https://github.com/waylonflinn/markdown-it-katex).
+* Ability to add delays when scraping solutions (useful for slower connections).
+
+## Demonstrations
+### Scraping without restriction
+
+### Scraping with restrictions
+
 ## Extension Workflow
 <p align="center">
   <img src="docs/extension-workflow.drawio.png" alt="extension workflow" width="80%">
