@@ -3,8 +3,30 @@ import mk from '@vscode/markdown-it-katex';
 import 'katex/contrib/mhchem'
 
 const md = new MarkdownIt();
-
 md.use(mk);
+
+md.use(mk, {
+  throwOnError: false,
+  errorColor: '#cc0000',
+});
+
+
+function getMarkdownImageSrc(inputString: string) {
+    const markdownImageRegex = /!\[.*?\]\((.*?)\)/;
+    const match = inputString.match(markdownImageRegex);
+    return match ? match[1] : null;
+}
+
+function fixHtmlBeforeRendering(htmlString: string) {
+  let fixedHtml = htmlString
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"');
+
+  fixedHtml = fixedHtml.replace(/height="([^"]*)’"/g, 'height="$1"');
+
+  return fixedHtml;
+}
 
 
 function getAnswer() {
@@ -24,26 +46,55 @@ function getAnswer() {
             // itterates through number of steps
             for (let j = 0; j < step?.length; j++) {
                 let stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
-                const image = step?.[j]?.columns?.[0]?.images?.additional?.regular;
-                const imageSrc = image?.srcUrl == undefined ? "" : image?.srcUrl;
-                const formattedHTML = md.render(step?.[j]?.columns?.[0]?.text)
-                htmlAnswer += `
-                    <div class="answerContainer">
-                        <div class="stepHeader">
-                            <h2 class="stepName">${stepName}</h2>
-                            <h3 class="stepCounter">${j + 1} of ${step?.length}</h3>
-                        </div>
-                        <div class="stepContent">
-                            <div class="answerElement">
-                                ${formattedHTML}
+                    htmlAnswer += `
+                        <div class="answerContainer">
+                            <div class="stepHeader">
+                                <h2 class="stepName">${stepName}</h2>
+                                <h3 class="stepCounter">${j + 1} of ${step?.length}</h3>
                             </div>
-                            <img src="${imageSrc}" width=${image?.width}>
+                            <div class="stepContent">
+                                <div class="answerElement">`
+                // itterate through number of columns
+                
+                for (let k = 0; k < step?.[j]?.columns?.length; k++) {
+                    const columns = step?.[j]?.columns[k]
+                    const image = columns?.images?.additional?.regular;
+                    const imageSrc = image?.srcUrl == undefined ? "" : image?.srcUrl;
+                    
+                    if (columns?.isTextOnly == true) {
+                        htmlAnswer += `<div class="answerColumn">
+                                            ${columns?.text}
+                                            <img src="${imageSrc}" width=${image?.width}>
+                                        </div>`
+                    } else if (columns?.isTextOnly == false && columns?.images?.latex?.large?.srcUrl == undefined) {
+                    htmlAnswer += `<div class="answerColumn">
+                                            ${md.render(columns?.text)}
+                                            <img src="${imageSrc}" width=${image?.width}>
+                                        </div>`
+                    } else {
+                        htmlAnswer += `<div class="answerColumn">
+                                            <div>
+                                                <img src="${columns?.images?.latex?.large?.srcUrl}" width="${columns?.images?.latex?.regular?.width * 1.25}">
+                                                <br />`
+                        const markdownImage = getMarkdownImageSrc(columns?.text)
+                        if (markdownImage != null) {
+                            htmlAnswer += `<img src="${markdownImage}"><br />`
+                        } 
+                        
+                        htmlAnswer += ` <img src="${imageSrc}" width=${image?.width}>
+                                            </div>
+                                        </div>`
+                    }
+                }
+
+                htmlAnswer += `
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <br />
+                        <br />
                 `
+                htmlAnswer = fixHtmlBeforeRendering(htmlAnswer)
             }
-            console.log(htmlAnswer)
             const port = chrome.runtime.connect({ name: "answers" });
             port.postMessage({
                 html: htmlAnswer,
