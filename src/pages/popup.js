@@ -1,4 +1,9 @@
-// popup.js
 document.getElementById('open-page').addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL('../background/document.html') });
+  chrome.windows.getCurrent((window) => {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('../background/document.html'),
+      active: true,
+      windowId: window.id,
+    });
+  });
 });

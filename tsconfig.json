@@ -7,8 +7,9 @@
     "strict": true,
     "outDir": "dist",
     "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
     "skipLibCheck": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "types/markdown-it-katex.d.ts"],
   "exclude": ["node_modules"]
 }
