@@ -1,16 +1,16 @@
-import { ManifestV3 } from 'rollup-plugin-chrome-extension'
+import { ManifestV3 } from 'rollup-plugin-chrome-extension';
 
 const manifest: ManifestV3 = {
-  name: "quizlet-dl",
-  description: "download quizlet textbook solutions as a pdf",
-  version: "2.0.0a",
+  name: 'quizlet-dl',
+  description: 'download quizlet textbook solutions as a pdf',
+  version: '2.0.0a',
   manifest_version: 3,
-  permissions: ["activeTab", "tabs", "scripting", "storage"],
-  host_permissions: ["https://quizlet.com/explanations/textbook-solutions/*"],
+  permissions: ['activeTab', 'tabs', 'scripting', 'storage'],
+  host_permissions: ['https://quizlet.com/explanations/textbook-solutions/*'],
   background: {
     service_worker: 'background/background.ts',
   },
-  incognito: "split",
+  incognito: 'split',
   content_scripts: [
     {
       js: ['injected/answerScraper.ts'],
@@ -22,11 +22,11 @@ const manifest: ManifestV3 = {
     },
   ],
   action: {
-    default_popup: "pages/popup.html",
+    default_popup: 'pages/popup.html',
   },
   icons: {
-    128: "icon.png"
-  }
-}
+    128: 'icon.png',
+  },
+};
 
-export default manifest
+export default manifest;
