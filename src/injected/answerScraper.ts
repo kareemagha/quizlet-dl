@@ -1,11 +1,10 @@
 import MarkdownIt from 'markdown-it';
-import mk from '@vscode/markdown-it-katex';
+import mk from '@traptitech/markdown-it-katex';
 import 'katex/contrib/mhchem'
 
 const md = new MarkdownIt();
 
-md.use(mk);
-
+md.use(mk, {"blockClass": "math-block", "errorColor" : " #cc0000"});
 
 function getAnswer() {
     const scriptElement = document.getElementById('__NEXT_DATA__');
