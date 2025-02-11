@@ -16,11 +16,12 @@ function getMarkdownImageSrc(inputString: string) {
   return match ? match[1] : null;
 }
 
-function fixHtmlBeforeRendering(htmlString: string) {
+function fixHtmlBeforeRendering(htmlString: string): string {
   let fixedHtml = htmlString
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"');
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&');
 
   fixedHtml = fixedHtml.replace(/height="([^"]*)’"/g, 'height="$1"');
 
