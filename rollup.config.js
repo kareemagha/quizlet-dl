@@ -1,5 +1,3 @@
-// rollup.config.js
-
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
@@ -24,7 +22,12 @@ export default {
     commonjs(),
     copy({
       targets: [
-        { src: ['src/background/document.html', 'src/background/katex.css', 'src/background/katex.js', 'src/background/fonts/', 'src/background/autoRender.js', 'src/background/auto-render.js', 'src/background/github-markdown.min.css', 'src/background/settings.js'], dest: 'dist/background' }
+        { src: [
+            'src/background/document.html',
+            'src/background/styles.css', 
+            'src/background/dependencies/'
+        ],
+          dest: 'dist/background' }
       ]
     })
   ],

@@ -4,97 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="katex.css">
-    <script src="katex.js"></script>
-    <link rel="stylesheet" href="github-markdown.min.css">
-    <script src="auto-render.js"></script>
-    <style>
-        body {
-            max-width: 21cm;
-            width: 21cm;
-            font-size: 100%;
-            
-        }
-        .ExplanationsSolutionCard.c5ngj6s {
-            background-color: white;
-            width: 21cm;
-        }
-        .h1ejaztj {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-        }
-        .s1i7awl8 {
-            height: max-content !important;
-        }
-        img {
-            max-width: 18cm !important;
-        }
-        @media print {
-            .pagebreak {
-                clear: both;
-                page-break-after: always;
-            }
-            .noprint {
-                display:none;
-            }            
-        }
-    .stepHeader {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 400 !important;
-            font-size: 0.75em;
-        }
-
-    .stepContent {
-        font-weight: 400;
-        font-size: 1rem;
-        font-family: sans-serif !important;
-    }
-
-    img[src="undefined"] {
-        display: none;
-    }
-
-    .answerElement {
-        display: flex;
-    }
-
-    .answerColumn {
-        flex: 1 !important;
-        text-align: justify;
-        height: max-content;
-    }
-
-    table {
-        border: 1px solid #dededf;
-        height: 100%;
-        width: 100%;
-        table-layout: fixed;
-        border-collapse: collapse;
-        border-spacing: 1px;
-        text-align: left;
-    }
-
-    caption {
-        caption-side: top;
-        text-align: left;
-    }
-
-    th {
-        border: 1px solid #dededf;
-        background-color: #eceff1;
-        color: #000000;
-        padding: 5px;
-    }
-
-    td {
-        border: 1px solid #dededf;
-        background-color: #ffffff;
-        color: #000000;
-        padding: 5px;
-    }
-    </style>
+    <link rel="stylesheet" href="dependencies/katex.css">
+    <script src="dependencies/katex.js"></script>
+    <link rel="stylesheet" href="dependencies/github-markdown.min.css">
+    <script src="dependencies/auto-render.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -102,19 +16,25 @@
         <h2>QUIZLET-DL</h2>
         <div>
             <h3>Options:</h3>
+            <div id="control">
+                Extension state: 
+                <label class="radio">
+                    <input type="radio" name="answer" id="on">
+                    On
+                </label>
+                <label class="radio">
+                    <input type="radio" name="answer" id="off">
+                    Off
+                </label>
+            </div>
             <div class="options-indent">
-                Next solution delay (in milliseconds): <input type="number" />
-                 <div id="control">
-                    Extension state: 
-                    <label class="radio">
-                        <input type="radio" name="answer" id="on">
-                        On
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="answer" id="off">
-                        Off
-                    </label>
+                <div class="tooltip"> Next solution delay (in milliseconds): <input type="number" />
+                    <span class="tooltiptext">Add a delay between scraping a solution, and moving to the next solution.</span>
                 </div>
+                <br>
+                <div class="tooltip"> Force LaTeX rendering: <label class="checkbox"><input type="checkbox" name="force-katex" id="force-katex"></label>
+                    <span class="tooltiptext">Forces this page to compile and render LaTeX - as opposed to using images of pre-rendered LaTeX. </span>
+                </div>           
             </div>
             <br>
             <button id="save">Save Options</button>
@@ -125,8 +45,8 @@
     <div id="answers">
 
     </div>
-    <script src="autoRender.js"></script>
+    <script src="dependencies/autoRender.js"></script>
     <script src="background.js"></script>
-    <script src="settings.js"></script>
+    <script src="dependencies/settings.js"></script>
 </body>
 </html>

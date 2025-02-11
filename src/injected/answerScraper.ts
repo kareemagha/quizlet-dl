@@ -28,11 +28,22 @@ function fixHtmlBeforeRendering(htmlString: string): string {
   return fixedHtml;
 }
 
-function getAnswer() {
+function getForceLatexState() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get('forceKatex', (items) => {
+      resolve(items.forceKatex);
+    });
+  });
+}
+
+async function getAnswer() {
   const scriptElement = document.getElementById('__NEXT_DATA__');
   const jsonData = scriptElement?.textContent
     ? JSON.parse(scriptElement.textContent)
     : null;
+
+    const forceLatex = await getForceLatexState();
+    console.log(forceLatex)
 
   if (jsonData) {
     // itterates over number of solutions
@@ -56,7 +67,6 @@ function getAnswer() {
                             <div class="stepContent">
                                 <div class="answerElement">`;
         // itterate through number of columns
-
         for (let k = 0; k < step?.[j]?.columns?.length; k++) {
           const columns = step?.[j]?.columns[k];
           const image = columns?.images?.additional?.regular;
@@ -68,8 +78,9 @@ function getAnswer() {
                                             <img src="${imageSrc}" width=${image?.width}>
                                         </div>`;
           } else if (
-            columns?.isTextOnly == false &&
-            columns?.images?.latex?.large?.srcUrl == undefined
+            (columns?.isTextOnly == false &&
+            columns?.images?.latex?.large?.srcUrl == undefined) ||
+            (forceLatex)
           ) {
             htmlAnswer += `<div class="answerColumn">
                                             ${md.render(columns?.text)}
