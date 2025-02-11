@@ -11,10 +11,16 @@ var saveOptions = function () {
     var delayValue = delayInput ? delayInput.value : null;
     console.log('Saving delay value:', delayValue);
 
-    // Save both the extension state and delay value to Chrome storage
+    // Get the state of the "Force LaTeX rendering" checkbox
+    var forceKatexCheckbox = document.getElementById('force-katex');
+    var forceKatexState = forceKatexCheckbox ? forceKatexCheckbox.checked : false;
+    console.log('Saving Force LaTeX rendering state:', forceKatexState);
+
+    // Save the extension state, delay value, and checkbox state to Chrome storage
     chrome.storage.sync.set({
         extensionState: extensionState,
         delayValue: delayValue,
+        forceKatex: forceKatexState,
     }, function () {
         var status = document.getElementById('status');
         if (status) {
@@ -29,9 +35,10 @@ var saveOptions = function () {
 // Restore options from Chrome storage
 var restoreOptions = function () {
     console.log('Restoring options...');
-    chrome.storage.sync.get({ extensionState: 'on', delayValue: 0 }, function (items) {
+    chrome.storage.sync.get({ extensionState: 'on', delayValue: 0, forceKatex: false }, function (items) {
         console.log('Retrieved extension state:', items.extensionState);
         console.log('Retrieved delay value:', items.delayValue);
+        console.log('Retrieved Force LaTeX rendering state:', items.forceKatex);
 
         // Restore the extension state
         var onRadio = document.getElementById('on');
@@ -46,6 +53,12 @@ var restoreOptions = function () {
         var delayInput = document.querySelector('input[type="number"]');
         if (delayInput) {
             delayInput.value = items.delayValue;
+        }
+
+        // Restore the "Force LaTeX rendering" checkbox state
+        var forceKatexCheckbox = document.getElementById('force-katex');
+        if (forceKatexCheckbox) {
+            forceKatexCheckbox.checked = items.forceKatex;
         }
     });
 };
