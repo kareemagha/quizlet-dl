@@ -32,14 +32,32 @@ img[src="undefined"] {
     display: none;
 }
 
-.answerElement {
-    display: flex;
+
+.toggleButton {
+    position: absolute;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.toggleButton:hover {
+    background-color: #0056b3;
 }
 
 .answerColumn {
     flex: 1 !important;
     text-align: justify;
     height: max-content;
+}
+
+.answerElement {
+    display: flex;
 }
 
 table {

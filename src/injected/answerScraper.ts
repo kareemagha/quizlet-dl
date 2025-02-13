@@ -1,6 +1,5 @@
 import MarkdownIt from 'markdown-it';
 import mk from '@vscode/markdown-it-katex';
-import 'katex/contrib/mhchem';
 
 const md = new MarkdownIt();
 md.use(mk);
@@ -9,6 +8,8 @@ md.use(mk, {
   throwOnError: false,
   errorColor: '#cc0000',
 });
+
+const addPrompt = true
 
 function getMarkdownImageSrc(inputString: string) {
   const markdownImageRegex = /!\[.*?\]\((.*?)\)/;
@@ -55,6 +56,17 @@ async function getAnswer() {
       const pageTitle = formatSolutionName(pageURL, elementCount, i);
       let htmlAnswer = '';
       const step = jsonData.props?.pageProps?.exercise?.solutions?.[i]?.steps;
+      const prompt  = jsonData.props?.pageProps?.exercise?.solutions?.[0]?.prompt
+      if (addPrompt && typeof prompt === "string") {
+        htmlAnswer += `
+          <div class="questionContainer">
+            <h2>Question</h2>
+            <div class="question">
+                ${md.render(jsonData.props?.pageProps?.exercise?.solutions?.[0]?.prompt)}
+            </div>
+          </div>
+        `
+      }
       // itterates through number of steps
       for (let j = 0; j < step?.length; j++) {
         const stepName = j + 1 == step.length ? `Result` : `Step ${j + 1}`;
@@ -71,44 +83,38 @@ async function getAnswer() {
           const columns = step?.[j]?.columns[k];
           const image = columns?.images?.additional?.regular;
           const imageSrc = image?.srcUrl == undefined ? '' : image?.srcUrl;
-
+          const markdownImage = getMarkdownImageSrc(columns?.text);
           if (columns?.isTextOnly == true) {
-            htmlAnswer += `<div class="answerColumn">
-                                            ${columns?.text}
-                                            <img src="${imageSrc}" width=${image?.width}>
-                                        </div>`;
-          } else if (
-            (columns?.isTextOnly == false &&
-            columns?.images?.latex?.large?.srcUrl == undefined) ||
-            (forceLatex)
-          ) {
-            htmlAnswer += `<div class="answerColumn">
-                                            ${md.render(columns?.text)}
-                                            <img src="${imageSrc}" width=${image?.width}>
-                                        </div>`;
+            htmlAnswer += `<div class="answerColumn textAnswer">
+                            ${columns?.text}
+                            <img src="${imageSrc}" width=${image?.width}>
+                          </div>`;
           } else {
-            htmlAnswer += `<div class="answerColumn">
-                                            <div>
-                                                <img src="${columns?.images?.latex?.large?.srcUrl}" width="${columns?.images?.latex?.regular?.width * 1.25}">
-                                                <br />`;
-            const markdownImage = getMarkdownImageSrc(columns?.text);
-            if (markdownImage != null) {
-              htmlAnswer += `<img src="${markdownImage}"><br />`;
-            }
+              const hasImage = columns?.images?.latex?.large?.srcUrl != undefined;
+              htmlAnswer += `${hasImage ? `<button class="toggleButton noprint">Show Image Answer</button><br/>` : ''}
+                                <div class="answerColumn latexAnswer" style=${forceLatex ? "" : "display: none;"}>
+                                  ${md.render(columns?.text)}
+                                  <img src="${imageSrc}" width=${image?.width}>
+                                </div>`;
 
-            htmlAnswer += ` <img src="${imageSrc}" width=${image?.width}>
-                                            </div>
-                                        </div>`;
+              if (hasImage) {
+                  htmlAnswer += `<div class="answerColumn imageAnswer" style="${forceLatex ? `display: none;` : `` }">
+                                  <img src="${columns.images.latex.large.srcUrl}" width="${columns.images.latex.regular.width * 1.4}">
+                                  <br />`;
+
+                  if (markdownImage != null) {
+                      htmlAnswer += `<img src="${markdownImage}"><br />`;
+                  }
+
+                  htmlAnswer += ` <img src="${imageSrc}" width=${image?.width}>
+                                  </div>`;
+              }
+
+              htmlAnswer += `</div>`;
           }
+          htmlAnswer += `</div>`
+          htmlAnswer = fixHtmlBeforeRendering(htmlAnswer);
         }
-
-        htmlAnswer += `
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                `;
-        htmlAnswer = fixHtmlBeforeRendering(htmlAnswer);
       }
       const port = chrome.runtime.connect({ name: 'answers' });
       port.postMessage({

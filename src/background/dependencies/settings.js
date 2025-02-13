@@ -82,3 +82,30 @@ var initializeOptionsPage = function () {
 
 // Initialize the options page when the DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeOptionsPage);
+
+
+
+document.addEventListener('click', function(event) {
+    // Check if the clicked element is a toggle button
+    if (event.target.classList.contains('toggleButton')) {
+        const button = event.target;
+
+        // Find the parent container of the button
+        const parentContainer = button.closest('.answerContainer');
+
+        // Find the latexAnswer and imageAnswer sections within the parent container
+        const latexAnswer = parentContainer.querySelector('.latexAnswer');
+        const imageAnswer = parentContainer.querySelector('.imageAnswer');
+
+        // Toggle visibility
+        if (latexAnswer.style.display === 'none') {
+            latexAnswer.style.display = 'block';
+            imageAnswer.style.display = 'none';
+            button.textContent = 'Show Image Answer'; // Update button text
+        } else {
+            latexAnswer.style.display = 'none';
+            imageAnswer.style.display = 'block';
+            button.textContent = 'Show Latex Answer'; // Update button text
+        }
+    }
+});
