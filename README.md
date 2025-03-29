@@ -12,11 +12,7 @@ Download Quizlet textbook solutions as a PDF.
 * Ability to add delays when scraping solutions (useful for slower connections).
 
 ## Demonstrations
-### Scraping without restriction
-https://github.com/user-attachments/assets/87adb5d4-f5a5-4518-b9f6-de1e4d0b041e
-
-### Scraping with restrictions (it still works 😁)
-https://github.com/user-attachments/assets/d1223458-7dbd-48aa-b40e-5a54ffc1803e
+Removed
 
 ## Extension Workflow
 <p align="center">
